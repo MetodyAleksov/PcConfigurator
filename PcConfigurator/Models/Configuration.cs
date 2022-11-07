@@ -47,14 +47,30 @@ namespace PcConfigurator.Models
 
         public static Configuration[] GetAllValidConfigurations(CPU cpu, Motherboard motherboard, Data data)
         {
+            var compadMemory = data.Memory.Where(m => m.Type == cpu.SupportedMemory);
 
+            var allValidConfigs = new List<Configuration>();
 
-            return null;
+            foreach (var memory in compadMemory)
+            {
+                allValidConfigs.Add(new Configuration(cpu, motherboard, memory));
+            }
+
+            return allValidConfigs.ToArray();
         }
 
         public static Configuration[] GetAllValidConfigurations(CPU cpu, Memory memory, Data data)
         {
-            return null;
+            var compadMotherboards = data.Motherboards.Where(m => m.Socket == cpu.Socket);
+
+            var allValidConfigs = new List<Configuration>();
+
+            foreach (var motherboard in compadMotherboards)
+            {
+                allValidConfigs.Add(new Configuration(cpu, motherboard, memory));
+            }
+
+            return allValidConfigs.ToArray();
         }
 
         public Configuration(CPU cpu, Motherboard motherboard, Memory memory)
